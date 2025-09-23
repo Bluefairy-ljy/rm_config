@@ -121,6 +121,25 @@ controllers:
       ban_shoot_duration: 0.0
       gimbal_switch_duration: 0.0
       max_track_target_vel: 1.2
+    ballistic_solver:
+      mass: 0.0445
+      radius: 0.02125
+      gun_len: 0.0
+      kinematic_viscosity: 1.5e-5
+      drag_coff: 0.7
+      air_density: 1.225
+      Re_crit: 6e4
+      g: 9.81
+      max_simulation_time: 5.0
+      max_integration_step: 0.01
+      abs_error_tolerance: 1.0e-6
+      rel_error_tolerance: 1.0e-6
+      output_pitch_match:
+        - [ 13.50, -0.482 ]
+        - [ 14.80, -0.543 ]
+        - [ 15.00, -0.551 ]
+        - [ 15.50, -0.592 ]
+        - [ 16.00, -0.648 ]
     chassis_vel:
       num_data: 20
       debug: true
