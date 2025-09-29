@@ -130,10 +130,12 @@ controllers:
       air_density: 1.225
       Re_crit: 6e4
       g: 9.81
-      max_simulation_time: 5.0
-      max_integration_step: 0.01
-      abs_error_tolerance: 1.0e-6
-      rel_error_tolerance: 1.0e-6
+      initial_vel_near: 14
+      initial_vel_far: 15.8
+      max_simulation_time: 2.0
+      max_integration_step: 0.02
+      abs_error_tolerance: 1.0e-3
+      rel_error_tolerance: 1.0e-3
       output_pitch_match:
         - [ 13.50, -0.482 ]
         - [ 14.80, -0.543 ]
