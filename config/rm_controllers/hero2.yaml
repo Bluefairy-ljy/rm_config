@@ -38,7 +38,7 @@ controllers:
     # ChassisBase
     publish_rate: 100
     enable_odom_tf: true
-    publish_odom_tf: true
+    publish_odom_tf: false
     enable_map_tf: true
     power:
       effort_coeff: 2.30
@@ -124,24 +124,34 @@ controllers:
     ballistic_solver:
       mass: 0.0445
       radius: 0.02125
-      gun_len: 0.0
-      kinematic_viscosity: 1.5e-5
-      drag_coff: 0.7
-      air_density: 1.225
+      gun_len: 0.12
+      kinematic_viscosity: 	1.56e-5
+      drag_coff: 0.84
+      air_density: 1.185
       Re_crit: 6e4
       g: 9.81
       initial_vel_near: 14
-      initial_vel_far: 15.8
+      initial_vel_far: 15.7
       max_simulation_time: 2.0
       max_integration_step: 0.02
-      abs_error_tolerance: 1.0e-3
-      rel_error_tolerance: 1.0e-3
+      max_newton_iterations: 2
+      newton_convergence_tol: 2e-5
+      finite_difference_eps: 1e-6
+      max_newton_step: 0.1
       output_pitch_match:
         - [ 13.50, -0.482 ]
         - [ 14.80, -0.543 ]
         - [ 15.00, -0.551 ]
         - [ 15.50, -0.592 ]
         - [ 16.00, -0.648 ]
+        - [ 16.50, -0.696 ]
+        - [ 16.51, -0.472 ]
+        - [ 16.85, -0.490 ]
+        - [ 17.35, -0.502 ]
+        - [ 18.10, -0.539 ]
+        - [ 18.85, -0.578 ]
+        - [ 19.22, -0.597 ]
+        - [ 19.53, -0.620 ]
     chassis_vel:
       num_data: 20
       debug: true
