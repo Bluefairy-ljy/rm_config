@@ -37,9 +37,18 @@ controllers:
     type: rm_chassis_controllers/OmniController
     # ChassisBase
     publish_rate: 100
-    enable_odom_tf: true
-    publish_odom_tf: true
-    enable_map_tf: true
+    publish_map_tf: true #publish global_map->robot_odom tf
+    publish_odom_tf: true #publish robot_odom->robot_base tf
+    enable_wheel_odom: true #dont use wheel odometry position, use twist only, for move_base_flex
+    enable_slam_odom: true #provide lidar_odom->lidar_base tf
+    global_map_frame_id: "map"
+    robot_odom_frame_id: "odom"
+    robot_base_frame_id: "base_link"
+    lidar_odom_frame_id: "livox_odom"
+    lidar_base_frame_id: "livox_frame"
+    slam_odom_topic: "/Odometry"
+    localization_result_topic: "/hdl_global_localization/result"
+    wheel_radius: 0.02
     power:
       effort_coeff: 2.30
       vel_coeff: 0.012
@@ -124,10 +133,10 @@ controllers:
     ballistic_solver:
       mass: 0.0445
       radius: 0.02125
-      gun_len: 0.08
+      gun_len: 0.341725
       drag_coff: 1.0
-      Cd: 0.605
-      air_density: 1.35
+      Cd: 0.57
+      air_density: 1.25
       g: 9.81
       initial_vel_near: 14
       initial_vel_far: 15.7
@@ -138,28 +147,31 @@ controllers:
       finite_difference_eps: 1e-4
       max_newton_step: 0.1
       used_debug: false
-      debug_x: 15.0
+      debug_x: 14.0
       debug_y: 0
       debug_z: 0.737
       output_pitch_match:
-        - [ 13.00, -0.472 ]
-        - [ 13.50, -0.491 ]
-        - [ 14.00, -0.524 ]
-        - [ 14.25, -0.530 ]
-        - [ 14.50, -0.552 ]
-        - [ 14.75, -0.558 ]
-        - [ 15.25, -0.582 ]
-        - [ 15.50, -0.609 ]
-        - [ 15.75, -0.638 ]
-        - [ 16.00, -0.644 ]
-        - [ 16.25, -0.669 ]
-        - [ 16.50, -0.694 ]
-        - [ 16.77, -0.490 ]
-        - [ 17.27, -0.502 ]
-        - [ 18.02, -0.539 ]
-        - [ 18.77, -0.578 ]
-        - [ 19.14, -0.597 ]
-        - [ 19.45, -0.620 ]
+        - [10.00, -0.352]
+        - [11.00, -0.392]
+        - [12.00, -0.432]
+        - [13.00, -0.472]
+        - [13.50, -0.491]
+        - [14.00, -0.524]
+        - [14.25, -0.530]
+        - [14.50, -0.552]
+        - [14.75, -0.558]
+        - [15.25, -0.582]
+        - [15.50, -0.609]
+        - [15.75, -0.638]
+        - [16.00, -0.644]
+        - [16.25, -0.669]
+        - [16.50, -0.694]
+        - [16.77, -0.490]
+        - [17.27, -0.502]
+        - [18.02, -0.539]
+        - [18.77, -0.578]
+        - [19.14, -0.597]
+        - [19.45, -0.620]
     chassis_vel:
       num_data: 20
       debug: true
