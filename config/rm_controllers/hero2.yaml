@@ -39,7 +39,7 @@ controllers:
     publish_rate: 100
     publish_map_tf: true #publish global_map->robot_odom tf
     publish_odom_tf: true #publish robot_odom->robot_base tf
-    enable_wheel_odom: true #dont use wheel odometry position, use twist only, for move_base_flex
+    enable_wheel_odom: false #dont use wheel odometry position, use twist only, for move_base_flex
     enable_slam_odom: true #provide lidar_odom->lidar_base tf
     global_map_frame_id: "map"
     robot_odom_frame_id: "robot_odom"
@@ -136,7 +136,7 @@ controllers:
       radius: 0.02125
       gun_len: 0.341725
       drag_coff: 1.0
-      Cd: 0.25
+      Cd: 0.40
       air_density: 1.1
       g: 9.81
       initial_vel_near: 14
