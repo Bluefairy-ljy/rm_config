@@ -65,10 +65,6 @@ rm_manual:
       k_hp: 0.0
       k_freq: 99.0
       timeout: 0.1
-  pitch_joint:
-    joint: "pitch_joint"
-  yaw_joint:
-    joint: "yaw_joint"
   ballistic_pitch_step: 0.01
   ballistic_yaw_step: 0.01
   shooter:
@@ -110,10 +106,6 @@ rm_manual:
     off_pos: -0.204
   use_lio:
     topic: "/use_lio"
-  target_x:
-    topic: "total_target_x"
-  target_y:
-    topic: "total_target_y"
   detection_switch:
     fail_limit: 10
     service_name: "/Processor/status_switch"
