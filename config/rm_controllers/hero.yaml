@@ -49,30 +49,38 @@ controllers:
     pid_follow: { p: 8.0, i: 0, d: 0.02, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
     twist_covariance_diagonal: [ 0.001, 0.001, 0.001, 0.001, 0.001, 0.001 ]
 
-    # OmniController
+    # ActiveSuspensionController
     wheels:
       left_front:
-        pose: [ 0.219, 0.215, 0. ]
+        pose: [ 0.2018, 0.172, 0. ]
         roller_angle: -0.785
         joint: left_front_wheel_joint
         <<: &wheel_setting
           radius: 0.07625
-          pid: { p: 0.6, i: 0, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
+          pid: { p: 0.25, i: 0, d: 0.0, i_max: 0.0, i_min: 0.0, antiwindup: true, publish_state: true }
       right_front:
-        pose: [ 0.219, -0.215, 0. ]
+        pose: [ 0.2018, -0.172, 0. ]
         roller_angle: 0.785
         joint: right_front_wheel_joint
         <<: *wheel_setting
       left_back:
-        pose: [ -0.219, 0.215, 0. ]
+        pose: [ -0.2018, 0.172, 0. ]
         roller_angle: 0.785
         joint: left_back_wheel_joint
         <<: *wheel_setting
       right_back:
-        pose: [ -0.219, -0.215, 0. ]
+        pose: [ -0.2018, -0.172, 0. ]
         roller_angle: -0.785
         joint: right_back_wheel_joint
         <<: *wheel_setting
+    suspension_leg:
+      left:
+        joint: left_hip_joint
+        <<: &leg_setting
+          pid: { p: 300.0, i: 10, d: 5.0, i_clamp_max: 15.0, i_clamp_min: -15.0, antiwindup: true, publish_state: true }
+      right:
+        joint: right_hip_joint
+        <<: *leg_setting
 
   orientation_controller:
     type: rm_orientation_controller/Controller
