@@ -2,6 +2,7 @@ rm_manual:
   robot_type: "hero"
   dbus_topic: "/rm_ecat_hw/dbus"
   chassis_calibrate_motor: [ ]
+  chassis_motor: [ "right_front_wheel_motor", "left_front_wheel_motor", "left_back_wheel_motor", "right_back_wheel_motor" ]
   gimbal_calibrate_motor: [ "scope_joint_motor", "image_transmission_joint_motor" ]
   shooter_calibrate_motor: [ "trigger_joint_motor" ]
   chassis:
@@ -13,36 +14,50 @@ rm_manual:
     accel_z:
       - [ 50.0,99.0 ]
     safety_power: 60
-    capacitor_threshold: 0.2
+    capacitor_threshold: 0.3
+    enable_cap_gyro_threshold: 0.8
+    disable_cap_gyro_threshold: 0.7
+    enable_use_cap_threshold: 0.45
+    disable_use_cap_threshold: 0.3
     charge_power: 20
-    extra_power: 50
+    extra_power: 40
+    standard_power: 220
     burst_power: 220
+    max_power_limit: 120
     buffer_threshold: 10
-    power_gain: 0.85
+    power_gain: 0.0
+    total_burst_time: 20
+    is_new_capacitor: true
   vel:
     topic: "/cmd_vel"
     power_limit_topic: "/cmd_chassis"
     max_linear_x:
-      - [ 50.0,2.14 ]
-      - [ 80.0,3.5 ]
-      - [ 300.0,4.0 ]
+      - [ 50.0,1.7 ]
+      - [ 80.0,2.0 ]
+      - [ 100.0,2.3 ]
+      - [ 220.0,5.0 ]
     max_linear_y:
-      - [ 50.0,2.14 ]
-      - [ 80.0,3.5 ]
-      - [ 300.0,4.0 ]
+      - [ 50.0,1.7 ]
+      - [ 80.0,2.0 ]
+      - [ 100.0,2.3 ]
+      - [ 220.0,5.0 ]
     max_angular_z:
-      - [ 50.0,4.0 ]
-      - [ 80.0,6.0 ]
-      - [ 300.0,8.0 ]
+      - [ 50.0,3.2 ]
+      - [ 80.0,4.5 ]
+      - [ 100.0,5.0 ]
+      - [ 220.0,8.0 ]
     gyro_move_reduction: 0.20
     gyro_rotate_reduction: 0.70
   gimbal:
     topic: "/controllers/gimbal_controller/command"
-    max_yaw_vel: 10.00
-    max_pitch_vel: 10.00
+    max_yaw_vel: 3.14
+    max_pitch_vel: 6.28
+    time_constant_rc: 0.08
+    time_constant_pc: 0.08
     gimbal_scale: 5
+    traj_scale: 0.05
     track_timeout: 0.5
-    eject_sensitivity: 0.1
+    eject_sensitivity: 0.85
     finish_turning_threshold: 2.9
     target_cost_function:
       k_pos: 1.0
@@ -50,19 +65,26 @@ rm_manual:
       k_hp: 0.0
       k_freq: 99.0
       timeout: 0.1
+  ballistic_pitch_step: 0.01
+  ballistic_yaw_step: 0.01
   shooter:
     topic: "/controllers/shooter_controller/command"
     track_armor_error_tolerance: 0.12
+    untrack_armor_error_tolerance: 0.12
     target_acceleration_tolerance: 1.0
+    max_track_target_vel: 1.2
     accleration_moving_average_num: 10
-    speed_10m_per_speed: 15.8
-    speed_15m_per_speed: 15.8
-    speed_16m_per_speed: 15.8
-    speed_18m_per_speed: 18.0
-    speed_30m_per_speed: 30.0
-    wheel_speed_10: 535.0
-    wheel_speed_16: 535.0
+    speed_10m_per_speed: 15.9
+    speed_15m_per_speed: 15.9
+    speed_16m_per_speed: 15.9
+    speed_18m_per_speed: 15.9
+    speed_30m_per_speed: 15.9
+    wheel_speed_10: 507.0
+    wheel_speed_16: 507.0
     extra_wheel_speed_once: 5.0
+    #    wheel_speed_offset_front: 0.0
+    #    wheel_speed_offset_back: -90.0
+    deploy_wheel_speed: 450.0
     auto_wheel_speed: false
     speed_oscillation: 0.1
     heat_limit:
@@ -71,16 +93,21 @@ rm_manual:
       burst_shoot_frequency: 6
       minimal_shoot_frequency: 1
       safe_shoot_frequency: 1
-      heat_coeff: 3.5
+      heat_coeff: 1
+      use_local_heat: true
       type: "ID1_42MM"
+  ActiveSuspension:
+    topic: "/cmd_active_suspension"
   scope:
     topic: "/controllers/scope_controller/command"
-    on_pos: 1.744
+    on_pos: 1.93
     off_pos: 0.1
   image_transmission:
     topic: "/controllers/image_transmission_controller/command"
-    on_pos: -0.595
-    off_pos: -0.35
+    on_pos: 0.0
+    off_pos: -0.204
+  use_lio:
+    topic: "/use_lio"
   detection_switch:
     fail_limit: 10
     service_name: "/Processor/status_switch"
@@ -136,12 +163,6 @@ controllers:
     pid: { p: 8.0, i: 0.0, d: 0.3, i_clamp_max: 0.0, i_clamp_min: -0.0, antiwindup: true, publish_state: true }
 
   image_transmission_controller:
-    type: rm_position_controller/RMPositionController
-    publish_rate: 50
-    pos_controller1:
-      joint: "image_transmission_joint"
-      pid: { p: 1.3, i: 5.0, d: 0.03, i_clamp_max: 0.0, i_clamp_min: -0.05, antiwindup: true, publish_state: true }
-    pos_controller2:
-      joint: "image_transmission_joint"
-      pid: { p: 1.5, i: 20.0, d: 0.035, i_clamp_max: 0.0, i_clamp_min: -0.1, antiwindup: true, publish_state: true }
-    threshold: 0.03
+    type: effort_controllers/JointPositionController
+    joint: "image_transmission_joint"
+    pid: { p: 1.0, i: 12.0, d: 0.02, i_clamp_max: 0.0, i_clamp_min: -0.08, antiwindup: true, publish_state: true }
